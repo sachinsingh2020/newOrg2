@@ -1,0 +1,29 @@
+/* Container inside the card */
+.form-container {
+    padding: 1rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+}
+
+/* Spacing between inputs */
+.form-field {
+    margin-bottom: 1rem;
+}
+
+/* Card customization */
+.school-card {
+    --slds-c-card-radius-border: 0.75rem;
+    --slds-c-card-color-background: #ffffff;
+}
+
+/* Improve label readability */
+.form-field lightning-input label {
+    font-weight: 600;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 0.75rem;
+    }
+}

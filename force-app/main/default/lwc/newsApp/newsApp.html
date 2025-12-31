@@ -1,0 +1,61 @@
+<template>
+    <lightning-card title="📰 News Application" class="news-card">
+
+        <!-- Category Filter -->
+        <div class="filter-bar">
+            <lightning-combobox
+                name="category"
+                label="Category"
+                value={category}
+                placeholder="Select Category"
+                options={categories}
+                onchange={handleCategoryChange}>
+            </lightning-combobox>
+        </div>
+               <!-- Pagination -->
+        <div class="pagination">
+            <lightning-button 
+                label="Prev"
+                onclick={handlePrev}
+                disabled={isPrevDisabled}>
+            </lightning-button>
+
+            <span class="page-info">Page {pageNumber}</span>
+
+            <lightning-button 
+                label="Next"
+                onclick={handleNext}
+                disabled={isNextDisabled}>
+            </lightning-button>
+        </div>
+
+        <div
+        class="space-line"
+        ></div>
+
+        <!-- News List -->
+        <template if:true={hasResults}>
+            <div class="news-grid">
+                <template for:each={resultArray} for:item="item">
+                    <article key={item.url} class="news-card-item">
+                        <img src={item.proxyImage} alt={item.title} class="news-img" onerror={handleImageError} />
+                        <div class="news-content">
+                            <h3 class="news-title">{item.title}</h3>
+                            <p class="meta">Author: {item.author}</p>
+                            <p class="desc">{item.description}</p>
+                            <p class="news-date">Published: {item.publishedAt}</p>
+                            <a href={item.url} target="_blank" class="link">Read more →</a>
+                        </div>
+                    </article>
+                </template>
+            </div>
+        </template>
+
+        <template if:false={hasResults}>
+            <p class="empty">Loading latest news...</p>
+        </template>
+
+ 
+
+    </lightning-card>
+</template>

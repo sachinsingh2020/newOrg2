@@ -1,0 +1,22 @@
+<template>
+    <lightning-card>
+        <template
+        if:false={status}
+        >
+             <lightning-button
+            label="Click to Call the Flow"
+            onclick={ChangeStatus}
+        ></lightning-button>
+        </template>
+    
+        <template
+        if:true={status}
+        >
+            <lightning-flow flow-api-name="lwc_flow" ></lightning-flow>
+             <lightning-button
+            label="back to home page"
+            onclick={ChangeStatus}
+        ></lightning-button>
+        </template>
+    </lightning-card>
+</template>

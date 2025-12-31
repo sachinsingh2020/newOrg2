@@ -1,0 +1,34 @@
+<template>
+    <lightning-card title="School Details" class="school-card">
+        <div class="form-container">
+
+            <lightning-input
+                class="form-field"
+                type="text"
+                label="School Name"
+                value={value.schdata.schoolName}
+                onchange={handleSchoolNameChange}
+                required>
+            </lightning-input>
+
+            <lightning-input
+                class="form-field"
+                type="text"
+                label="School Address"
+                value={value.schdata.schoolAddress}
+                onchange={handleSchoolAddressChange}
+                required>
+            </lightning-input>
+
+            <lightning-input
+                class="form-field"
+                type="number"
+                label="Number of Students"
+                value={value.schdata.numberOfStudents}
+                onchange={handleStudentCountChange}
+                required>
+            </lightning-input>
+
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,161 @@
+<template>
+
+    <!-- ============== PAGE 1 ============== -->
+    <template if:true={page1}>
+        <lightning-card title="Choose an Object">
+            <div class="page1-container">
+                <h2 class="page-heading">Step 1: Select an Object</h2>
+
+                <lightning-combobox
+                    class="object-combobox"
+                    name="objectList"
+                    label="Select Object"
+                    value={selectedValue}
+                    placeholder="Choose an option"
+                    options={ObjectList}
+                    onchange={handleChange}>
+                </lightning-combobox>
+
+                <div class="btn-container">
+                    <lightning-button
+                        label="Next"
+                        variant="brand"
+                        onclick={handleNextPage1}>
+                    </lightning-button>
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+
+
+
+    <!-- ============== PAGE 2 ============== -->
+    <template if:true={page2}>
+        <lightning-card title="Metadata for {selectedValue}">
+            <div class="page2-container">
+
+                <lightning-button
+                    label="Back"
+                    onclick={handleBack}
+                    class="back-btn">
+                </lightning-button>
+
+                <!-- Loader -->
+                <template if:true={isLoading}>
+                    <div class="spinner-container">
+                        <lightning-spinner size="medium"></lightning-spinner>
+                    </div>
+                </template>
+
+                <!-- CONTENT -->
+                <template if:false={isLoading}>
+
+                    <!-- ========== APEX TRIGGERS ========== -->
+                    <h2 class="section-title">Apex Triggers</h2>
+
+                    <template if:true={metadata.triggers.length}>
+                        <div class="meta-list">
+                            <template for:each={metadata.triggers} for:item="t">
+                                <div key={t.Id} class="meta-item">
+                                    🔹 {t.Name}
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:false={metadata.triggers.length}>
+                        <p>No triggers found.</p>
+                    </template>
+
+
+                    <!-- ========== APEX CLASSES ========== -->
+                    <h2 class="section-title">Apex Classes</h2>
+
+                    <template if:true={metadata.classes.length}>
+                        <div class="meta-list">
+                            <template for:each={metadata.classes} for:item="c">
+                                <div key={c.Id} class="meta-item">
+                                    📘 {c.Name}
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:false={metadata.classes.length}>
+                        <p>No classes found.</p>
+                    </template>
+
+
+                    <!-- ========== VALIDATION RULES ========== -->
+                    <h2 class="section-title">Validation Rules</h2>
+
+                    <template if:true={metadata.validationRules.length}>
+                        <div class="meta-list">
+                            <template for:each={metadata.validationRules} for:item="vr">
+                                <div key={vr.Id} class="meta-item">
+                                    ✔ {vr.FullName}
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:false={metadata.validationRules.length}>
+                        <p>No validation rules found.</p>
+                    </template>
+
+
+                    <!-- ============= FLOWS ============= -->
+                    <h2 class="section-title">Flows Summary</h2>
+
+                    <template if:true={cleanObjArray.length}>
+                        <div class="flow-grid">
+
+                            <template for:each={cleanObjArray} for:item="flow">
+                                <div key={flow.Id} class="flow-card">
+
+                                    <div class="flow-title">
+                                        <strong>{flow.FullName}</strong>
+                                    </div>
+
+                                    <div class="flow-row">
+                                        <span class="label">Status:</span>
+                                        <span class={flow.statusClass}>{flow.Status}</span>
+                                    </div>
+
+                                    <div class="flow-row">
+                                        <span class="label">Version:</span>
+                                        <span>{flow.VersionNumber}</span>
+                                    </div>
+
+                                    <div class="flow-row">
+                                        <span class="label">Trigger Object:</span>
+                                        <span>{flow.triggerObject}</span>
+                                    </div>
+
+                                    <div class="flow-row">
+                                        <span class="label">Record Trigger:</span>
+                                        <span>{flow.recordTriggerType}</span>
+                                    </div>
+
+                                    <div class="flow-row">
+                                        <span class="label">Trigger Type:</span>
+                                        <span>{flow.triggerType}</span>
+                                    </div>
+
+                                </div>
+                            </template>
+
+                        </div>
+                    </template>
+
+                    <template if:false={cleanObjArray.length}>
+                        <p>No flows found.</p>
+                    </template>
+
+                </template>
+
+            </div>
+        </lightning-card>
+    </template>
+
+</template>
