@@ -1,0 +1,37 @@
+<template>
+  <lightning-card title="Accounts & Contacts">
+    <!-- ACCOUNTS -->
+    <div class="account-container">
+      <template for:each={accounts} for:item="acc">
+        <div
+          key={acc.accountId}
+          class="account-card"
+          data-id={acc.accountId}
+          ondragover={allowDrop}
+          ondrop={handleDrop}
+        >
+          <h3>{acc.accountName}</h3>
+
+          <template for:each={acc.contacts} for:item="con">
+            <p key={con.Id}>{acc.accountName} – {con.LastName}</p>
+          </template>
+        </div>
+      </template>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="contact-container">
+      <template for:each={contacts} for:item="con">
+        <div
+          key={con.Id}
+          class="contact-card"
+          draggable="true"
+          data-id={con.Id}
+          ondragstart={handleDragStart}
+        >
+          {con.LastName}
+        </div>
+      </template>
+    </div>
+  </lightning-card>
+</template>
