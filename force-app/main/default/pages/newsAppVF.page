@@ -1,0 +1,11 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" docType="html-5.0">
+    <apex:includeLightning/>
+    <div id="lwcContainer"></div>
+    <script>
+        $Lightning.use("c:newsAppAura", function () {
+            $Lightning.createComponent("c:newsApp", {}, "lwcContainer", function (cmp) {
+                console.log("LWC loaded");
+            })
+        })
+    </script>
+</apex:page>

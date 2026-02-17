@@ -1,0 +1,64 @@
+<template>
+  <lightning-card title="Accounts">
+    <!-- LOADER -->
+    <template if:true={isLoading}>
+      <div class="loader-wrapper">
+        <lightning-spinner alternative-text="Loading data" size="medium">
+        </lightning-spinner>
+      </div>
+    </template>
+
+    <!-- ACCOUNTS -->
+    <div class="account-container">
+      <template for:each={accounts} for:item="acc">
+        <div
+          key={acc.accountId}
+          class="account-card"
+          data-id={acc.accountId}
+          ondragover={allowDrop}
+          ondrop={handleDrop}
+        >
+          <div class="card-header">
+            <span class="label">Account Name:</span>
+            <span class="value">{acc.accountName}</span>
+          </div>
+
+          <div class="card-section">
+            <span class="label">Related Contacts:</span>
+
+            <template if:true={acc.contacts.length}>
+              <ul class="contact-list">
+                <template for:each={acc.contacts} for:item="con">
+                  <li key={con.Id}>{con.displayIndex}. {con.LastName}</li>
+                </template>
+              </ul>
+            </template>
+
+            <template if:false={acc.contacts.length}>
+              <p class="empty-text">No contacts assigned</p>
+            </template>
+          </div>
+        </div>
+      </template>
+    </div>
+
+
+  </lightning-card>
+  <lightning-card title="Contacts">
+    <!-- CONTACTS -->
+    <div class="contact-container">
+      <template for:each={contacts} for:item="con">
+        <div
+          key={con.Id}
+          class="contact-card"
+          draggable="true"
+          data-id={con.Id}
+          ondragstart={handleDragStart}
+        >
+          <span class="label">Contact Name:</span>
+          <span class="value">{con.LastName}</span>
+        </div>
+      </template>
+    </div>
+  </lightning-card>
+</template>

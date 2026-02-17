@@ -1,0 +1,121 @@
+<template>
+    <lightning-card>
+    <lightning-tabset>
+    
+        <lightning-tab label="Apply Here For a Request">
+            <lightning-card class="cardPadding">
+
+                <div class="RequestTypeDropDown">
+                    <lightning-combobox
+                        name="RequestType"
+                        label="Request Type"
+                        value={selectedRequestType}
+                        options={picklistRequestTypeOptions}
+                        onchange={handleRequestTypePicklistChange}
+                        placeholder="Select a Request Type">
+                    </lightning-combobox>
+                </div>
+
+                <div class="container">
+                    <template if:true={isLeaveSelected}>
+                        <div class="heading">Leave Request Form</div>
+                        <lightning-record-form
+                            object-api-name="Leave__c"
+                            fields={leaveObjectFields}
+                            mode="edit"
+                            onsuccess={handleLeaveCreationSuccess}>
+                        </lightning-record-form>
+                    </template>
+
+                    <template if:true={isWFHSelected}>
+                        <div class="heading">Work From Home Request Form</div>
+                        <lightning-record-form
+                            object-api-name="Work_From_Home__c"
+                            fields={workFromHomeObjectFields}
+                            mode="edit"
+                            onsuccess={handleWorkFromHomeCreationSuccess}>
+                        </lightning-record-form>
+                    </template>
+
+                    <template if:true={isLaptopIssueSelected}>
+                        <div class="heading">Laptop Issue Request Form</div>
+                        <lightning-record-form
+                            object-api-name="Laptop_Issue__c"
+                            fields={laptopIssueObjectFields}
+                            mode="edit"
+                            onsuccess={handleLaptopIssueCreationSuccess}>
+                        </lightning-record-form>
+                    </template>
+                </div>
+            </lightning-card>
+        </lightning-tab>
+
+        <lightning-tab label="Leave Request History">
+            <lightning-card title="Leave Requests">
+                <lightning-datatable
+                    key-field="Id"
+                    data={leaveObjectData}
+                    columns={columnForLeaveObject}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </lightning-card>
+        </lightning-tab>
+
+        <lightning-tab label="Work From Home Request History">
+            <lightning-card title="WFH Requests">
+                <lightning-datatable
+                    key-field="Id"
+                    data={WFHObjectData}
+                    columns={columnForWFHObject}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </lightning-card>
+        </lightning-tab>
+
+        <lightning-tab label="Laptop Issues Request History">
+            <lightning-card title="Laptop Issues">
+                <lightning-datatable
+                    key-field="Id"
+                    data={laptopIssueData}
+                    columns={columnForLaptopIssueObject}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </lightning-card>
+        </lightning-tab>
+
+    </lightning-tabset>
+    </lightning-card>
+
+
+    <template if:true={isEditModalOpen}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Edit Record</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-record-form
+                        record-id={selectedRecordId}
+                        object-api-name={selectedObjectApiName}
+                        fields={selectedFields}
+                        mode="edit"
+                        onsuccess={handleEditSuccess}>
+                    </lightning-record-form>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Close"
+                        onclick={closeModal}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>
