@@ -1,0 +1,179 @@
+<template>
+  <lightning-card title="Accounts & Contacts" icon-name="standard:account">
+    <!-- SEARCH -->
+    <div class="slds-p-around_medium">
+      <lightning-input
+        type="search"
+        label="Search by Account Name or Contact Email"
+        onchange={handleSearch}
+      ></lightning-input>
+    </div>
+
+    <!-- ACCORDION -->
+    <lightning-accordion allow-multiple-sections-open>
+      <template for:each={pagedAccounts} for:item="acc">
+        <lightning-accordion-section
+          key={acc.accountId}
+          label={acc.accountName}
+        >
+          <!-- ACCOUNT DETAILS CARD -->
+          <lightning-card title="Account Details" class="slds-m-bottom_medium">
+            <div class="slds-p-around_medium slds-grid slds-wrap slds-gutters">
+              <div class="slds-col slds-size_1-of-2">
+                <p><b>Name:</b> {acc.accountName}</p>
+                <p><b>Industry:</b> {acc.industry}</p>
+                <p><b>Type:</b> {acc.type}</p>
+                <p><b>Rating:</b> {acc.rating}</p>
+              </div>
+
+              <div class="slds-col slds-size_1-of-2">
+                <p><b>Phone:</b> {acc.phone}</p>
+                <p><b>Website:</b> {acc.website}</p>
+                <p><b>Annual Revenue:</b> {acc.annualRevenue}</p>
+              </div>
+            </div>
+
+            <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+              <lightning-button
+                label="Edit Account"
+                variant="brand"
+                data-id={acc.accountId}
+                onclick={openEditAccount}
+              ></lightning-button>
+            </div>
+          </lightning-card>
+
+          <!-- CONTACTS -->
+          <template if:true={acc.hasContacts}>
+            <lightning-datatable
+              key-field="Id"
+              data={acc.contacts}
+              columns={contactColumns}
+              hide-checkbox-column
+              onrowaction={handleRowAction}
+            ></lightning-datatable>
+          </template>
+
+          <template if:false={acc.hasContacts}>
+            <p>No Contacts Found</p>
+            <lightning-button
+              label="Add New Contact"
+              data-id={acc.accountId}
+              onclick={openNewContact}
+            ></lightning-button>
+          </template>
+        </lightning-accordion-section>
+      </template>
+    </lightning-accordion>
+
+    <!-- PAGINATION -->
+    <div class="slds-m-around_medium slds-align_absolute-center">
+      <lightning-button
+        label="Prev"
+        onclick={prevPage}
+        disabled={isFirstPage}
+      ></lightning-button>
+      <span class="slds-m-horizontal_small">
+        Page {pageNumber} of {totalPages}
+      </span>
+      <lightning-button
+        label="Next"
+        onclick={nextPage}
+        disabled={isLastPage}
+      ></lightning-button>
+    </div>
+  </lightning-card>
+
+  <!-- ✅ EDIT ACCOUNT MODAL (ALL FIELDS NOW) -->
+  <template if:true={showEditAccount}>
+    <section class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container slds-modal_large">
+        <div class="slds-modal__content slds-p-around_medium">
+          <lightning-record-edit-form
+            object-api-name="Account"
+            record-id={selectedAccountId}
+            onsuccess={handleSuccess}
+          >
+            <div class="slds-grid slds-wrap slds-gutters">
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field
+                  field-name="Name"
+                ></lightning-input-field>
+                <lightning-input-field
+                  field-name="Phone"
+                ></lightning-input-field>
+                <lightning-input-field
+                  field-name="Industry"
+                ></lightning-input-field>
+                <lightning-input-field
+                  field-name="Type"
+                ></lightning-input-field>
+              </div>
+
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field
+                  field-name="Website"
+                ></lightning-input-field>
+                <lightning-input-field
+                  field-name="Rating"
+                ></lightning-input-field>
+                <lightning-input-field
+                  field-name="AnnualRevenue"
+                ></lightning-input-field>
+                <lightning-input-field
+                  field-name="NumberOfEmployees"
+                ></lightning-input-field>
+              </div>
+            </div>
+
+            <div class="slds-m-top_medium">
+              <lightning-button
+                type="submit"
+                label="Save"
+                variant="brand"
+              ></lightning-button>
+              <lightning-button
+                label="Cancel"
+                onclick={closeModal}
+              ></lightning-button>
+            </div>
+          </lightning-record-edit-form>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+
+  <!-- NEW CONTACT MODAL -->
+  <template if:true={showNewContact}>
+    <section class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <div class="slds-modal__content slds-p-around_medium">
+          <lightning-record-edit-form
+            object-api-name="Contact"
+            onsuccess={handleSuccess}
+          >
+            <lightning-input-field
+              field-name="AccountId"
+              value={selectedAccountId}
+            ></lightning-input-field>
+            <lightning-input-field
+              field-name="LastName"
+            ></lightning-input-field>
+            <lightning-input-field field-name="Email"></lightning-input-field>
+            <lightning-button
+              type="submit"
+              label="Save"
+              variant="brand"
+            ></lightning-button>
+            <lightning-button
+              label="Cancel"
+              onclick={closeModal}
+            ></lightning-button>
+          </lightning-record-edit-form>
+        </div>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </template>
+</template>

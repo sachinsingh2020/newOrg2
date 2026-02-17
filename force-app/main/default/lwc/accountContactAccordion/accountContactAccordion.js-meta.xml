@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8"?>
-=======
 <?xml version="1.0" encoding="UTF-8" ?>
->>>>>>> 1f2c344ead1bab40ea548fb8a3ef9e74687312c2
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>65.0</apiVersion>
        <isExposed>true</isExposed>
@@ -12,8 +8,4 @@
         <target>
         lightning__HomePage</target>
     </targets>
-<<<<<<< HEAD
 </LightningComponentBundle>
-=======
-</LightningComponentBundle>
->>>>>>> 1f2c344ead1bab40ea548fb8a3ef9e74687312c2

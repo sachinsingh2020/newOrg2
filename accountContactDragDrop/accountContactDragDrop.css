@@ -1,0 +1,19 @@
+.account-container,
+.contact-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.account-card,
+.contact-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: 200px;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+.contact-card {
+  cursor: grab;
+}
